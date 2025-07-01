@@ -1,70 +1,159 @@
-# Getting Started with Create React App
+Step-by-Step Setup (Beginner Friendly)
+1. Create a React App
+Open your terminal and run:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+bash
+npx create-react-app react-responsive-chat
+cd react-responsive-chat
 
-## Available Scripts
+2. Replace Files
+Now, inside the src/ folder, replace the contents with these:
 
-In the project directory, you can run:
+src/App.js 
+paste the below code:
 
-### `npm start`
+import React, { useState, useEffect, useRef } from "react";
+import "./App.css";
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+function App() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const ws = useRef(null);
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  useEffect(() => {
+    ws.current = new WebSocket("wss://ws.postman-echo.com/raw");
 
-### `npm test`
+    ws.current.onmessage = (event) => {
+      setMessages((prev) => [...prev, { type: "received", text: event.data }]);
+    };
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    return () => ws.current && ws.current.close();
+  }, []);
 
-### `npm run build`
+  const sendMessage = () => {
+    if (!input.trim()) return;
+    ws.current.send(input);
+    setMessages((prev) => [...prev, { type: "sent", text: input }]);
+    setInput("");
+  };
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  return (
+    <div className="chat-wrapper">
+      <h2>📱 Responsive Chat App</h2>
+      <div className="chat-box">
+        {messages.map((msg, i) => (
+          <div key={i} className={`message ${msg.type}`}>
+            {msg.text}
+          </div>
+        ))}
+      </div>
+      <div className="input-area">
+        <input
+          type="text"
+          placeholder="Type a message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
+    </div>
+  );
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+export default App;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+""
+ 2. Replace Files
+Now, inside the src/ folder, replace the contents with these:
+src/App.css
 
-### `npm run eject`
+"""
+* {
+  box-sizing: border-box;
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f0f2f5;
+}
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+.chat-wrapper {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+.chat-box {
+  height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #fafafa;
+}
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+.message {
+  padding: 10px 14px;
+  border-radius: 20px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
 
-## Learn More
+.message.sent {
+  background-color: #d1f7d6;
+  align-self: flex-end;
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+.message.received {
+  background-color: #e1e1f9;
+  align-self: flex-start;
+}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+.input-area {
+  display: flex;
+  gap: 10px;
+}
 
-### Code Splitting
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+.input-area button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
 
-### Analyzing the Bundle Size
+@media screen and (max-width: 600px) {
+  .chat-wrapper {
+    margin: 10px;
+    padding: 10px;
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  .input-area button {
+    padding: 10px;
+  }
+}
+"""
+3. Start the App
+In the terminal, run:
 
-### Making a Progressive Web App
+bash
+npm start
+It should open your chat app at:
+📍 http://localhost:3000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
