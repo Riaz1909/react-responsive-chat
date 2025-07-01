@@ -24,9 +24,7 @@ react-responsive-chat/
 │ └── index.js
 └── package.json
 
-yaml
-Copy
-Edit
+
 
 ---
 
@@ -41,13 +39,12 @@ Open your terminal or VS Code terminal and run:
 ```bash
 npx create-react-app react-responsive-chat
 cd react-responsive-chat
+
 2️⃣ Replace Files
 📁 Inside the src/ folder, replace the contents of the following files:
 
 📄 src/App.js
-js
-Copy
-Edit
+
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
@@ -99,9 +96,7 @@ function App() {
 
 export default App;
 🎨 src/App.css
-css
-Copy
-Edit
+
 * {
   box-sizing: border-box;
 }
@@ -185,8 +180,6 @@ body {
 Run the app locally with:
 
 bash
-Copy
-Edit
 npm start
 It should open the app in your browser at:
 
