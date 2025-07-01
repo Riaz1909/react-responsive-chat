@@ -190,17 +190,4 @@ Type any message in the input box.
 
 Hit Enter or click Send.
 
-Watch the message bounce back from the WebSocket server!
-
-📦 Deployment
-You can deploy this to GitHub Pages, Vercel, or Netlify by running:
-
-bash
-Copy
-Edit
-npm run build
-💡 Notes
-Uses Postman Echo WebSocket for testing purposes.
-
-For production, use your own backend or service like Socket.IO, Pusher, or Supabase Realtime.
 
